@@ -204,12 +204,33 @@ Remove-Item Env:BILIBILI_LITE
 
 ## 6. 当前 Git 状态
 
-- 仓库已 `git init`，但**尚无任何提交**（`master` 是 unborn 分支）。
-- 已配置身份：`user.name = jntm0fz`，`user.email = 3779949164@qq.com`。
-- **没有配置 remote**，尚未 push。
-- 所有源文件此前已 `git add`（部分经过后续修改，处于 `AM` 状态）；`cookies_tool.py` 尚未 add。
-- 下一步若要上传：`git add .` → `git commit -m "…"` → `git remote add origin <URL>` →
-  `git branch -M main` → `git push -u origin main`。
+- 本地仓库已配好，分支 `main`，已有 3 个提交：
+
+  | commit | 说明 |
+  | --- | --- |
+  | `3fa155e` | 加 `.gitattributes`：bat/cmd 强制 CRLF，源码统一 LF |
+  | `159a8f8` | 版本号升到 1.1.0（新增轻量版、多平台、按需 ffmpeg） |
+  | `d3d2e48` | 视频下载器 1.0.0：B站/抖音/小红书多平台，完整版+轻量版双打包 |
+
+- 身份：`user.name = jntm0fz`，`user.email = 3779949164@qq.com`。
+- `.gitattributes` 已加：`*.bat` / `*.cmd` 强制 CRLF（否则 `run.bat` 在 Windows 上会出问题），
+  源码统一 LF，`*.exe` / `*.dll` / `*.whl` 按二进制存。
+- **尚未配置 remote**，因为当时 GitHub 连不上，没有 push。
+- 工作区干净（`git status` 无输出）。`build/` `dist/` `dist_lite/` `__pycache__/`
+  `cookies*.txt` `update_config.json` 等均由 `.gitignore` 排除。
+
+后续要上传（GitHub 恢复后）：
+
+```powershell
+git remote add origin https://github.com/<用户名>/<仓库名>.git
+git push -u origin main
+# 首次发版：推送 tag 触发 .github/workflows/release.yml 自动构建
+git tag v1.1.0
+git push origin v1.1.0
+```
+
+首次 `push` / `push tag` 会弹浏览器/凭据框（credential helper = `manager`），登录一次即可，
+之后自动记住。
 
 ## 7. 已知问题 / 待办
 
@@ -224,7 +245,8 @@ Remove-Item Env:BILIBILI_LITE
 
 ## 8. 改代码时的注意事项
 
-- 保持中文 UI/提示；不要在代码里新增注释（项目约定：不加注释）。
+- 保持中文 UI/提示。代码里尽量少加注释，只在关键逻辑（风控重试、ffmpeg 校验、双版本分支）
+  处保留简短中文说明；现有各模块的函数 docstring 请保留。
 - 平台相关逻辑尽量走 `detect_platform()` / `platform_headers()`，不要在 `build_ydl_opts`
   里写死单一平台的 header。
 - `yt-dlp` 版本较新，内部 API（如 `_request_director`、`supported_targets`）可能随版本变化，
