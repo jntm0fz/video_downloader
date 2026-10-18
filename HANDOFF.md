@@ -204,33 +204,55 @@ Remove-Item Env:BILIBILI_LITE
 
 ## 6. 当前 Git 状态
 
-- 本地仓库已配好，分支 `main`，已有 3 个提交：
-
-  | commit | 说明 |
-  | --- | --- |
-  | `3fa155e` | 加 `.gitattributes`：bat/cmd 强制 CRLF，源码统一 LF |
-  | `159a8f8` | 版本号升到 1.1.0（新增轻量版、多平台、按需 ffmpeg） |
-  | `d3d2e48` | 视频下载器 1.0.0：B站/抖音/小红书多平台，完整版+轻量版双打包 |
-
-- 身份：`user.name = jntm0fz`，`user.email = 3779949164@qq.com`。
+- 远端已配好并推送完成：`https://github.com/jntm0fz/video_downloader.git`，分支 `main` 跟踪 `origin/main`。
+- 身份：`user.name = jntm0fz`，`user.email = 3779949164@qq.com`，`credential.helper = manager`
+  （凭据已缓存，push 不再弹框）。
 - `.gitattributes` 已加：`*.bat` / `*.cmd` 强制 CRLF（否则 `run.bat` 在 Windows 上会出问题），
   源码统一 LF，`*.exe` / `*.dll` / `*.whl` 按二进制存。
-- **尚未配置 remote**，因为当时 GitHub 连不上，没有 push。
 - 工作区干净（`git status` 无输出）。`build/` `dist/` `dist_lite/` `__pycache__/`
   `cookies*.txt` `update_config.json` 等均由 `.gitignore` 排除。
 
-后续要上传（GitHub 恢复后）：
+提交历史：
+
+| commit | 说明 |
+| --- | --- |
+| `5a15bb4` | 合并 GitHub 初始 LICENSE 提交（merge commit） |
+| `7ed1f42` | GitHub 网页创建仓库时自动生成的 Initial commit（只有 LICENSE） |
+| `6511107` | 添加 MIT License，README 补许可章节 |
+| `1f6925d` | HANDOFF：更新 Git 状态章节，补上传/发版步骤 |
+| `3fa155e` | 加 `.gitattributes`：bat/cmd 强制 CRLF，源码统一 LF |
+| `159a8f8` | 版本号升到 1.1.0（新增轻量版、多平台、按需 ffmpeg） |
+| `d3d2e48` | 视频下载器 1.0.0：B站/抖音/小红书多平台，完整版+轻量版双打包 |
+
+> 因为 GitHub 建仓时勾了 MIT 模板，远端先有一个独立历史的 `Initial commit`，
+> 本地已用 `git merge --allow-unrelated-histories origin/main` 合并（LICENSE 两边内容相同）。
+> **以后建仓务必选 None 模板，或者建空仓库**，可省掉这一步。
+
+### 6.1 GitHub 连不上的处理（本机特有，重要）
+
+本机访问 `github.com` 曾超时，原因有两个，都已处理：
+
+1. `C:\Windows\System32\drivers\etc\hosts` 里有一行写死的旧 IP
+   `20.205.243.166 github.com`，该 IP 的 443 端口已不通。已改为 `20.27.177.113 github.com`
+   （原文件备份在 `hosts.bak_20261018`）。
+   **如果哪天又连不上**，先测：`curl.exe -sS -o NUL -w "%{http_code}" --max-time 15 https://github.com/`，
+   再换一个可用 IP。实测可用：`20.27.177.113`、`20.200.245.247`、`140.82.113.3`、`140.82.114.3`、`140.82.116.3`；
+   已失效：`20.205.243.166`、`140.82.121.4`。
+2. `api.github.com` / `codeload.github.com` **不受影响**，无需改动，直接可用。
+
+另外本机 `git` 走 HTTPS 时偶发 `RPC failed; curl 28`，已在仓库内配好：
+`http.version = HTTP/1.1`、`http.lowSpeedLimit = 0`、`http.lowSpeedTime = 999999`。
+push/fetch 偶尔仍慢（十几秒到一分钟）或需重试，重试即可，不是配置坏了。
+
+### 6.2 发版
 
 ```powershell
-git remote add origin https://github.com/<用户名>/<仓库名>.git
-git push -u origin main
-# 首次发版：推送 tag 触发 .github/workflows/release.yml 自动构建
 git tag v1.1.0
 git push origin v1.1.0
 ```
 
-首次 `push` / `push tag` 会弹浏览器/凭据框（credential helper = `manager`），登录一次即可，
-之后自动记住。
+会自动触发 `.github/workflows/release.yml`，在 windows runner 上打出
+`B站视频下载器.exe`（完整版）和 `B站视频下载器-轻量版.exe`（轻量版）并上传 Release。
 
 ## 7. 已知问题 / 待办
 
