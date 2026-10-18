@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.spec.bak
+build/
+build_lite/
+dist/
+dist_lite/
+.venv/
+venv/
+*.log
+cookies.txt
+cookies_auto.txt
+update_config.json
+*.new
+*.part
+ffmpeg.exe

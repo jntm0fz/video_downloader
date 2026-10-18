@@ -1,0 +1,6 @@
+yt-dlp
+requests
+tqdm
+curl-cffi
+imageio-ffmpeg
+pyinstaller
