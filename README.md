@@ -77,3 +77,7 @@ python -m PyInstaller --clean --noconfirm bilibili.spec
 - `tqdm`
 - `curl-cffi`
 - `imageio-ffmpeg`（提供 ffmpeg，用于音视频合并；完整版随打包内置，轻量版在首次下载前自动获取）
+
+## 开源许可
+
+本项目采用 [MIT License](LICENSE) 开源。
