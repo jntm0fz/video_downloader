@@ -10,7 +10,7 @@ import urllib.request
 from pathlib import Path
 from typing import Callable, Dict, Optional, Tuple
 
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.1.0"
 CONFIG_NAME = "update_config.json"
 
 

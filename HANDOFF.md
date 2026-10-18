@@ -136,7 +136,7 @@ bilibili下载器/
 
 ### 4.4 `updater.py`（自动更新）
 
-- `APP_VERSION = "1.0.0"`，此版本号需与新 Release 的 tag（如 `v1.0.1`）比较。
+- `APP_VERSION = "1.1.0"`，此版本号需与新 Release 的 tag（如 `v1.1.0`）比较。
 - 更新源：`https://api.github.com/repos/{owner}/{repo}/releases/latest`。
 - 仓库地址由用户在界面「更新设置」里输入（`用户名/仓库名`），保存到 exe 同目录
   `update_config.json`。
