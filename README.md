@@ -25,10 +25,13 @@
 
 | | 完整版 | 轻量版 |
 | --- | --- | --- |
-| 文件名 | `B站视频下载器.exe` | `B站视频下载器-轻量版.exe` |
+| 文件名 | `video-downloader.exe` | `video-downloader-lite.exe` |
 | 体积 | 约 52 MB | 约 23 MB |
 | ffmpeg | 已内置，离线可用 | 首次下载视频前自动下载约 29.8 MB |
 | 适合 | 新手、网络不稳定、想开箱即用 | 体积敏感、能联网、愿意等第一次下载 |
+
+> 文件名用英文是因为 GitHub 会给中文资源名替换成 `.`（例如 `B站视频下载器.exe` 会变成 `B.exe`），
+> 那样用户下载下来就是个坏名字。程序界面和提示仍然全是中文。
 
 - 完整版推荐给新手：拷到任何地方都能直接跑，不需要联网获取 ffmpeg。
 - 轻量版第一次点“开始下载”时，软件会提示并下载约 29.8 MB 的 ffmpeg，保存在 EXE 同一个目录下；之后一直复用，不会再下载。下载过程中日志和进度条会显示百分比。
@@ -37,7 +40,7 @@
 
 ## 使用
 
-双击 `B站视频下载器.exe` 或 `B站视频下载器-轻量版.exe`，输入链接，选择保存目录，点击“开始下载”。
+双击 `video-downloader.exe` 或 `video-downloader-lite.exe`，输入链接，选择保存目录，点击“开始下载”。
 
 需要下载高清、会员或私密内容时，在软件的下拉框里选择本机已安装的浏览器登录态，或使用 `cookies.txt`。
 
@@ -61,13 +64,14 @@ python -m pip install -r requirements.txt pyinstaller
 python -m PyInstaller --clean --noconfirm bilibili.spec
 ```
 
-生成的程序位于 `dist/B站视频下载器.exe`（完整版）；打轻量版时设置环境变量 `BILIBILI_LITE=1` 再执行上面的命令，产物为 `dist/B站视频下载器-轻量版.exe`。
+生成的程序位于 `dist/video-downloader.exe`（完整版）；打轻量版时设置环境变量 `BILIBILI_LITE=1` 再执行上面的命令，产物为 `dist_lite/video-downloader-lite.exe`。
 
 ## 自动更新
 
 软件通过 GitHub Releases 检查更新。首次使用点击“更新设置”，填写 GitHub 仓库，例如 `用户名/仓库名`。之后点击“检查更新”，有新版本时会下载并自动替换当前 EXE。
 
-发布新版本时，在 GitHub 创建一个 Release，标签使用 `v1.0.1`、`v1.1.0` 等格式，并上传 `B站视频下载器.exe`（完整版）与 `B站视频下载器-轻量版.exe`（轻量版）作为 Release 资源。
+发布新版本时，推一个 `v1.1.0` 这样的 tag，GitHub Actions 会自动构建并上传
+`video-downloader.exe`（完整版）与 `video-downloader-lite.exe`（轻量版）。
 
 ## 依赖
 

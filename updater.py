@@ -10,7 +10,7 @@ import urllib.request
 from pathlib import Path
 from typing import Callable, Dict, Optional, Tuple
 
-APP_VERSION = "1.1.0"
+APP_VERSION = "1.1.1"
 CONFIG_NAME = "update_config.json"
 
 
@@ -58,16 +58,19 @@ def current_exe_name() -> str:
     return ""
 
 
+ASSET_NAMES_FULL = ("video-downloader.exe", "B站视频下载器.exe", "downloader.exe")
+ASSET_NAMES_LITE = ("video-downloader-lite.exe", "B站视频下载器-轻量版.exe", "downloader-lite.exe")
+
+
 def select_asset(assets: list[dict], platform_name: str = "windows", exe_name: Optional[str] = None) -> Optional[dict]:
     name_of_self = exe_name if exe_name is not None else current_exe_name()
     is_lite = ("轻量" in name_of_self) or ("lite" in name_of_self.lower())
-    if is_lite:
-        preferred = ("B站视频下载器-轻量版.exe", "B站视频下载器.exe", "downloader.exe", "video-downloader.exe")
-    else:
-        preferred = ("B站视频下载器.exe", "B站视频下载器-轻量版.exe", "downloader.exe", "video-downloader.exe")
-    for name in preferred:
+    preferred = ASSET_NAMES_LITE + ASSET_NAMES_FULL if is_lite else ASSET_NAMES_FULL + ASSET_NAMES_LITE
+    for want in preferred:
         for asset in assets:
-            if asset.get("name", "").lower() == name.lower():
+            if asset.get("name", "").lower() == want.lower():
+                return asset
+            if asset.get("label", "").lower() == want.lower():
                 return asset
     for asset in assets:
         name = asset.get("name", "").lower()

@@ -37,6 +37,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/B站视频下载器.exe
-            dist_lite/B站视频下载器-轻量版.exe
+            dist/video-downloader.exe
+            dist_lite/video-downloader-lite.exe
           generate_release_notes: true

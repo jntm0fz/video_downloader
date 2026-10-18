@@ -124,7 +124,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='B站视频下载器-轻量版' if LITE else 'B站视频下载器',
+    name='video-downloader-lite' if LITE else 'video-downloader',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
